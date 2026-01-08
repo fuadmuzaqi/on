@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Web Kasir 2.2</title>
+  <title>Web Kasir 2.3</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -13,12 +13,15 @@
       --muted:#9ca3af;
       --radius:10px;
 
-      /* Input lebih ringkas di mobile, tetap nyaman di layar besar */
+      /* Control lebih ringkas di mobile */
       --control-font: clamp(12.5px, 3.2vw, 14px);
       --control-pad-y: clamp(7px, 1.8vw, 10px);
       --control-pad-x: 10px;
       --control-radius: 10px;
       --control-minh: clamp(38px, 6.5vw, 44px);
+
+      /* Lebar konten "ramping" seperti Setting */
+      --narrow-max: 560px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -47,11 +50,11 @@
     }
     .logo-dot::after{content:"";width:16px;height:16px;border-radius:999px;background:#020617}
     .brand-text{display:flex;flex-direction:column;line-height:1.1}
-    .brand-title{font-size:.98rem;font-weight:700;letter-spacing:.02em}
+    .brand-title{font-size:.98rem;font-weight:800;letter-spacing:.02em}
     .brand-sub{font-size:.7rem;color:var(--muted)}
     .header-info{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
     .header-time{font-size:.72rem;color:var(--muted)}
-    .header-shop{font-size:.75rem;font-weight:600}
+    .header-shop{font-size:.75rem;font-weight:700}
 
     .tabs{display:flex;margin-top:8px;gap:6px;overflow-x:auto;padding-bottom:4px}
     .tab-btn{
@@ -72,7 +75,7 @@
     }
 
     main{margin-top:10px;display:grid;grid-template-columns:1.1fr .9fr;gap:10px}
-    @media(max-width:768px){main{grid-template-columns:1fr}}
+    @media(max-width:768px){ main{grid-template-columns:1fr} }
 
     .card{
       background:radial-gradient(circle at top left,rgba(37,99,235,.2),rgba(15,23,42,.98));
@@ -82,7 +85,7 @@
       box-shadow:0 18px 40px rgba(15,23,42,.9);
     }
     .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-    .card-title{font-size:.85rem;font-weight:700;letter-spacing:.02em}
+    .card-title{font-size:.85rem;font-weight:800;letter-spacing:.02em}
     .pill{
       font-size:.68rem;padding:2px 8px;border-radius:999px;
       background:rgba(15,23,42,.7);
@@ -90,9 +93,21 @@
       color:var(--muted);
     }
 
+    /* ===== KUNCI: semua tab kanan dibuat "narrow" seperti Setting ===== */
+    .right-panel{
+      max-width: var(--narrow-max);
+      width: 100%;
+      margin: 0 auto;     /* selalu center */
+    }
+    /* Panel kiri (Kasir) juga dibuat lebar sama, supaya konsisten */
+    .left-panel{
+      max-width: var(--narrow-max);
+      width: 100%;
+      margin: 0 auto;
+    }
+
     .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
     label{font-size:.75rem;color:var(--muted)}
-
     input,select,textarea{
       width:100%;
       padding: var(--control-pad-y) var(--control-pad-x);
@@ -111,7 +126,7 @@
       display:inline-flex;align-items:center;justify-content:center;
       padding:10px 12px;border-radius:999px;border:none;
       background:linear-gradient(to right,#2563eb,#4f46e5);
-      color:#fff;font-size: var(--control-font);font-weight:700;cursor:pointer;
+      color:#fff;font-size: var(--control-font);font-weight:800;cursor:pointer;
       min-height: var(--control-minh);
     }
     .btn-secondary{background:rgba(15,23,42,.9);border:1px solid rgba(148,163,184,.5);color:var(--muted)}
@@ -127,7 +142,7 @@
     }
     table{width:100%;border-collapse:collapse;font-size:.75rem;min-width:520px}
     th,td{padding:6px 6px;text-align:left;border-bottom:1px solid rgba(30,64,175,.6)}
-    th{position:sticky;top:0;background:#020617;z-index:1;font-weight:600;color:var(--muted)}
+    th{position:sticky;top:0;background:#020617;z-index:1;font-weight:700;color:var(--muted)}
     tr:nth-child(even) td{background:rgba(15,23,42,.7)}
 
     .tag{font-size:.68rem;padding:1px 6px;border-radius:999px;background:rgba(22,163,74,.12);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
@@ -143,7 +158,7 @@
       border:1px solid rgba(129,140,248,.6);
     }
     .summary-label{font-size:.7rem;color:var(--muted)}
-    .summary-value{margin-top:4px;font-size:.95rem;font-weight:800}
+    .summary-value{margin-top:4px;font-size:.95rem;font-weight:900}
     .summary-sub{font-size:.65rem;color:var(--muted);margin-top:2px}
 
     .bottom-bar{position:fixed;bottom:6px;left:0;right:0;padding:0 10px;z-index:50}
@@ -154,7 +169,7 @@
       display:flex;align-items:center;gap:6px;
     }
     .bottom-totals{flex:1;display:flex;flex-direction:column;gap:2px}
-    .bottom-main{font-size:.78rem;font-weight:800}
+    .bottom-main{font-size:.78rem;font-weight:900}
     .bottom-sub{font-size:.68rem;color:var(--muted)}
 
     .backdrop{
@@ -192,7 +207,7 @@
   <!-- LOGIN -->
   <div id="loginBackdrop" class="backdrop">
     <div class="dialog no-print">
-      <div class="dialog-title">Masuk Web Kasir 2.2</div>
+      <div class="dialog-title">Masuk Web Kasir 2.3</div>
       <div class="dialog-sub">Masukkan kode akses untuk menggunakan aplikasi kasir.</div>
 
       <div class="field-group">
@@ -240,7 +255,7 @@
       <div class="brand">
         <div class="logo-dot"></div>
         <div class="brand-text">
-          <span class="brand-title">Web Kasir 2.2</span>
+          <span class="brand-title">Web Kasir 2.3</span>
           <span class="brand-sub">Single Page • LocalStorage</span>
         </div>
       </div>
@@ -258,8 +273,8 @@
     </div>
 
     <main>
-      <!-- PANEL KIRI -->
-      <section id="tabKasirContent" class="card">
+      <!-- PANEL KIRI: (dibuat narrow juga supaya sama seperti Setting) -->
+      <section id="tabKasirContent" class="card left-panel">
         <div class="card-header">
           <span class="card-title">Transaksi Kasir</span>
           <span class="pill" id="kasirStatus">Siap</span>
@@ -296,8 +311,8 @@
         </div>
       </section>
 
-      <!-- PANEL KANAN -->
-      <section class="card">
+      <!-- PANEL KANAN (SEMUA TAB DI SINI) -->
+      <section class="card right-panel">
         <!-- KERANJANG -->
         <div id="cartSection">
           <div class="card-header">
@@ -469,7 +484,6 @@
   </div>
 
   <script>
-    // ========= LOGIN TANPA ENKRIPSI =========
     const ACCESS_CODE = "fuadeli";
     function checkAccess(){
       const val = document.getElementById("accessInput").value.trim();
@@ -480,7 +494,6 @@
       document.getElementById("app").style.display = "block";
     }
 
-    // ====== STATE & STORAGE ======
     const KEY_PRODUCTS = "pos_products_v1";
     const KEY_SETTINGS = "pos_settings_v1";
     const KEY_SALES = "pos_sales_v1";
@@ -511,14 +524,8 @@
     function saveProducts(){ localStorage.setItem(KEY_PRODUCTS, JSON.stringify(products)); }
     function saveSales(){ localStorage.setItem(KEY_SALES, JSON.stringify(sales)); }
 
-    // ====== UTIL ======
-    function formatRupiah(n){
-      n = Number(n || 0);
-      return "Rp " + n.toLocaleString("id-ID");
-    }
-    function generateId(prefix){
-      return prefix + "_" + Date.now() + "_" + Math.floor(Math.random()*9999);
-    }
+    function formatRupiah(n){ n = Number(n || 0); return "Rp " + n.toLocaleString("id-ID"); }
+    function generateId(prefix){ return prefix + "_" + Date.now() + "_" + Math.floor(Math.random()*9999); }
     function getSettings(){
       return {
         name: document.getElementById("sName").value.trim() || "Nama Toko",
@@ -528,7 +535,6 @@
       };
     }
 
-    // ====== TABS ======
     function showTab(tab){
       const tabs = ["kasir","produk","laporan","setting"];
       tabs.forEach(t => document.getElementById("tab"+cap(t)).classList.toggle("active", t===tab));
@@ -541,7 +547,6 @@
     }
     function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
-    // ====== PRODUK UNTUK KASIR ======
     function renderProductList(){
       const body = document.getElementById("productTableBody");
       const q = document.getElementById("searchInput").value.toLowerCase();
@@ -586,10 +591,7 @@
       const p = products.find(x => x.id === pid);
       if(!p) return;
 
-      if(Number(p.stock||0) < qty){
-        alert("Stok kurang!");
-        return;
-      }
+      if(Number(p.stock||0) < qty){ alert("Stok kurang!"); return; }
 
       let item = cart.find(x => x.productId === pid);
       if(!item){
@@ -601,21 +603,16 @@
       renderCart();
     }
 
-    // ====== KERANJANG ======
     function renderCart(){
       const body = document.getElementById("cartTableBody");
       body.innerHTML = "";
 
-      let total = 0;
-      let profitTotal = 0;
-      let itemCount = 0;
+      let total = 0, profitTotal = 0, itemCount = 0;
 
       cart.forEach(c => {
         const lineTotal = c.qty * c.price - c.discount;
         const lineProfit = (c.price - c.buy) * c.qty - c.discount;
-        total += lineTotal;
-        profitTotal += lineProfit;
-        itemCount += c.qty;
+        total += lineTotal; profitTotal += lineProfit; itemCount += c.qty;
 
         const tr = document.createElement("tr");
 
@@ -644,10 +641,7 @@
         btn.onclick = () => removeCartItem(c.id);
         tdDel.appendChild(btn);
 
-        tr.appendChild(tdName);
-        tr.appendChild(tdQty);
-        tr.appendChild(tdSub);
-        tr.appendChild(tdDel);
+        tr.appendChild(tdName); tr.appendChild(tdQty); tr.appendChild(tdSub); tr.appendChild(tdDel);
         body.appendChild(tr);
       });
 
@@ -692,9 +686,7 @@
       const total = calcTotal();
       const profit = calcProfit();
       const bayar = Number(document.getElementById("bayarInput").value || 0);
-      if(bayar < total){
-        if(!confirm("Uang bayar kurang dari total. Tetap simpan?")) return;
-      }
+      if(bayar < total){ if(!confirm("Uang bayar kurang dari total. Tetap simpan?")) return; }
 
       const now = new Date();
       const invoice = "INV" + now.getFullYear().toString().slice(-2)
@@ -795,7 +787,6 @@
       document.getElementById("printStyle")?.remove();
     }
 
-    // ====== MASTER PRODUK ======
     function resetProductForm(){
       selectedProductId = null;
       ["pName","pSku","pBuy","pSell","pStock","pNote"].forEach(id => document.getElementById(id).value = "");
@@ -880,7 +871,6 @@
       renderProductList();
     }
 
-    // ====== SETTING ======
     function saveSettings(){
       const s = getSettings();
       localStorage.setItem(KEY_SETTINGS, JSON.stringify(s));
@@ -894,12 +884,11 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href=url;
-      a.download="backup_web_kasir_2_2_"+new Date().toISOString().slice(0,10)+".json";
+      a.download="backup_web_kasir_2_3_"+new Date().toISOString().slice(0,10)+".json";
       a.click();
       URL.revokeObjectURL(url);
     }
 
-    // ====== LAPORAN ======
     function initReportMonth(){
       document.getElementById("reportMonth").value = new Date().toISOString().slice(0,7);
     }
@@ -910,8 +899,7 @@
       const tbody = document.getElementById("reportTableBody");
       tbody.innerHTML = "";
 
-      let totalSales = 0;
-      let totalProfit = 0;
+      let totalSales = 0, totalProfit = 0;
 
       sales
         .filter(s => {
@@ -957,12 +945,11 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href=url;
-      a.download="laporan_"+monthStr+"_web_kasir_2_2.csv";
+      a.download="laporan_"+monthStr+"_web_kasir_2_3.csv";
       a.click();
       URL.revokeObjectURL(url);
     }
 
-    // ====== JAM REALTIME ======
     function updateDateTime(){
       const el = document.getElementById("datetimeText");
       const now = new Date();
@@ -973,7 +960,6 @@
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
-    // ====== INIT ======
     window.addEventListener("load", () => {
       loadData();
       showTab("kasir");
