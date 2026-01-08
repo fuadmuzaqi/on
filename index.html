@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Web Kasir 2.4 - Pro Edition</title>
+  <title>Web Kasir</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
 
   <style>
@@ -22,13 +22,13 @@
 
     .app { max-width: var(--app-max); margin: 0 auto; padding: 12px; padding-bottom: 120px; }
 
+    /* UI Header & Tabs */
     header {
       position: sticky; top: 0; z-index: 100; backdrop-filter: blur(15px);
       background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid rgba(148, 163, 184, 0.2);
       padding: 12px; display: flex; align-items: center; justify-content: space-between;
       margin: -12px -12px 12px -12px;
     }
-
     .tabs { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
@@ -37,16 +37,16 @@
     }
     .tab-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
+    /* Layout Cards */
     .card { background: rgba(15, 23, 42, 0.6); border-radius: var(--radius); border: 1px solid rgba(148, 163, 184, 0.1); padding: 16px; margin-bottom: 16px; }
-    
     .field-group { margin-bottom: 12px; }
     label { font-size: 0.75rem; color: var(--muted); display: block; margin-bottom: 4px; }
-    
     input, select, textarea {
       width: 100%; height: var(--control-minh); padding: 0 12px; border-radius: 10px;
       border: 1px solid rgba(148, 163, 184, 0.3); background: rgba(2, 6, 23, 0.8); color: white; font-size: 1rem;
     }
 
+    /* Buttons */
     .btn {
       width: 100%; height: var(--control-minh); border-radius: 10px; border: none;
       font-weight: 700; font-size: 0.9rem; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -56,32 +56,54 @@
     .btn-danger { background: var(--danger); color: white; }
     .btn-sm { height: 32px; font-size: 0.75rem; padding: 0 10px; width: auto; }
 
+    /* Tables */
     .table-wrapper { overflow-x: auto; border-radius: 8px; background: rgba(2, 6, 23, 0.4); margin-top: 8px; }
     table { width: 100%; border-collapse: collapse; font-size: 0.75rem; }
-    th { background: rgba(30, 41, 59, 0.8); padding: 10px; text-align: left; color: var(--muted); }
-    td { padding: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); }
+    th, td { padding: 10px; border-bottom: 1px solid rgba(148, 163, 184, 0.1); text-align: left; }
 
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-
     .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; padding: 12px; z-index: 100; background: #020617; border-top: 1px solid #334155; }
     .bottom-inner { max-width: var(--app-max); margin: 0 auto; display: flex; gap: 10px; align-items: center; }
 
-    /* Modals */
+    /* Modal */
     .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 20px; }
     .dialog { background: #1e293b; width: 100%; max-width: 400px; border-radius: 20px; padding: 20px; max-height: 90vh; overflow-y: auto; }
 
-    /* Print styling */
+    /* PRINT FIXES */
     #printArea { display: none; }
+
     @media print {
-      @page { margin: 0; size: auto; }
+      /* Sembunyikan semua elemen kecuali printArea */
       body * { visibility: hidden; }
-      #printArea, #printArea * { visibility: visible; }
+      html, body { height: auto; background: #fff; margin: 0 !important; padding: 0 !important; }
+      
+      #printArea, #printArea * { 
+        visibility: visible; 
+      }
+      
       #printArea { 
         display: block !important; 
-        position: absolute; left: 0; top: 0; width: 100%; 
-        color: #000; background: #fff;
-        font-family: 'Courier New', monospace; font-size: 12pt;
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+        color: #000; 
+        background: #fff;
+        /* Penting: Paksa font monospace agar spasi centering sejajar */
+        font-family: 'Courier New', Courier, monospace !important; 
+        font-size: 10pt;
+        white-space: pre-wrap !important; /* Jaga format spasi */
       }
+      
+      /* Hapus header/footer tanggal & URL dari browser mobile */
+      @page { margin: 0; size: auto; }
+    }
+
+    #receiptPreview {
+      background: white; color: black; padding: 10px; 
+      font-family: 'Courier New', Courier, monospace; 
+      font-size: 12px; margin: 15px 0; border-radius: 5px; 
+      white-space: pre-wrap; word-wrap: break-word;
     }
   </style>
 </head>
@@ -89,7 +111,7 @@
 
   <div id="loginBackdrop" class="backdrop">
     <div class="dialog">
-      <h2 style="text-align: center; margin-bottom: 20px;">Web Kasir 2.4</h2>
+      <h2 style="text-align: center; margin-bottom: 20px;">Web Kasir</h2>
       <input type="password" id="accessInput" placeholder="Kode Akses" style="text-align: center; margin-bottom: 15px;" />
       <button class="btn btn-primary" onclick="checkAccess()">Buka Kasir</button>
     </div>
@@ -97,7 +119,7 @@
 
   <div class="app" id="app" style="display:none;">
     <header>
-      <div style="font-weight: 800;">Web Kasir 2.4</div>
+      <div style="font-weight: 800;">Web Kasir</div>
       <div id="shopNameHeader" style="color: var(--primary); font-size: 0.8rem;"></div>
     </header>
 
@@ -223,7 +245,7 @@
   <div id="receiptModal" class="backdrop" style="display:none;">
     <div class="dialog">
       <h3 style="text-align:center;">Pratinjau Struk</h3>
-      <pre id="receiptPreview" style="background:white; color:black; padding:10px; font-family:monospace; font-size:12px; margin:15px 0; border-radius:5px; white-space:pre-wrap;"></pre>
+      <pre id="receiptPreview"></pre>
       <div class="grid-2">
         <button class="btn btn-primary" onclick="window.print()">Cetak</button>
         <button class="btn btn-secondary" onclick="closeReceipt()">Tutup</button>
@@ -317,17 +339,9 @@
       let bayar = parseInt(document.getElementById('bayarInput').value) || 0;
       if(bayar < total && isPrint) return alert("Pembayaran kurang!");
 
-      let trx = { 
-        id: "INV-" + Date.now(), 
-        date: new Date().toISOString(), 
-        total, 
-        bayar, 
-        items: JSON.parse(JSON.stringify(cart)) 
-      };
-
+      let trx = { id: "INV-" + Date.now(), date: new Date().toISOString(), total, bayar, items: JSON.parse(JSON.stringify(cart)) };
       sales.push(trx);
       localStorage.setItem('kasir_s', JSON.stringify(sales));
-
       cart.forEach(c => {
         let p = products.find(x => x.id === c.productId);
         if(p) p.stock -= c.qty;
@@ -335,7 +349,7 @@
       localStorage.setItem('kasir_p', JSON.stringify(products));
 
       if(isPrint) showReceipt(trx);
-      else alert("Transaksi Disimpan!");
+      else alert("Transaksi Berhasil Disimpan!");
 
       cart = [];
       document.getElementById('bayarInput').value = "";
@@ -354,6 +368,7 @@
 
     function showReceipt(trx) {
       let W = parseInt(settings.paper);
+      // Header centered
       let res = centerText(settings.name.toUpperCase(), W) + "\n";
       res += centerText(settings.address, W) + "\n";
       res += centerText("HP: " + settings.phone, W) + "\n";
@@ -406,17 +421,10 @@
       const body = document.getElementById('reportTableBody');
       body.innerHTML = "";
       let grandLaba = 0;
-      
       Object.values(reportData).forEach(item => {
         let laba = item.tSell - item.tBuy;
         grandLaba += laba;
-        body.innerHTML += `<tr>
-          <td>${item.name}</td>
-          <td>${item.qty}</td>
-          <td>${formatRp(item.tBuy)}</td>
-          <td>${formatRp(item.tSell)}</td>
-          <td style="color:var(--success)">${formatRp(laba)}</td>
-        </tr>`;
+        body.innerHTML += `<tr><td>${item.name}</td><td>${item.qty}</td><td>${formatRp(item.tBuy)}</td><td>${formatRp(item.tSell)}</td><td style="color:var(--success)">${formatRp(laba)}</td></tr>`;
       });
       document.getElementById('reportFooter').innerHTML = `<tr><td colspan="4">TOTAL LABA</td><td>${formatRp(grandLaba)}</td></tr>`;
     }
@@ -437,7 +445,7 @@
       clearPForm();
       renderAdminProducts();
       renderProductList();
-      alert("Tersimpan");
+      alert("Produk Tersimpan");
     }
 
     function clearPForm() { ['pName','pBuy','pSell','pStock','pSku'].forEach(i => document.getElementById(i).value = ""); }
@@ -452,7 +460,6 @@
 
     // --- UTILS ---
     function formatRp(v) { return "Rp " + (v || 0).toLocaleString('id-ID'); }
-    
     function saveSettings() {
       settings = {
         name: document.getElementById('sName').value,
@@ -466,11 +473,11 @@
     }
 
     function exportJSON() {
-      let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify({products, sales, settings}));
+      let data = JSON.stringify({products, sales, settings});
+      let blob = new Blob([data], {type: "application/json"});
+      let url = URL.createObjectURL(blob);
       let a = document.createElement('a');
-      a.setAttribute("href", dataStr);
-      a.setAttribute("download", "backup_kasir.json");
-      a.click();
+      a.href = url; a.download = "backup_kasir.json"; a.click();
     }
 
     function importJSON(e) {
@@ -488,10 +495,7 @@
 
     function downloadCSV() {
       let month = document.getElementById('reportMonth').value;
-      let csv = "Produk,Qty,Total Beli,Total Jual,Laba\n";
-      // Logika CSV mirip dengan renderReport...
-      alert("CSV Berhasil di-generate (Cek Console / Download Simulasikan)");
-      // Implementasi download CSV...
+      alert("Fitur CSV sedang disiapkan. Gunakan Export JSON untuk backup lengkap.");
     }
   </script>
 </body>
