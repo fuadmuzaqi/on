@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Web Kasir 2.3</title>
+  <title>Web Kasir 2.4</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
@@ -13,15 +13,15 @@
       --muted:#9ca3af;
       --radius:10px;
 
-      /* Control lebih ringkas di mobile */
+      /* Kontrol ringkas untuk mobile, tetap nyaman */
       --control-font: clamp(12.5px, 3.2vw, 14px);
       --control-pad-y: clamp(7px, 1.8vw, 10px);
       --control-pad-x: 10px;
       --control-radius: 10px;
       --control-minh: clamp(38px, 6.5vw, 44px);
 
-      /* Lebar konten "ramping" seperti Setting */
-      --narrow-max: 560px;
+      /* Lebar utama: utamakan ukuran pas mobile */
+      --app-max: 560px;
     }
 
     *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
@@ -31,7 +31,12 @@
       min-height:100vh;
     }
 
-    .app{max-width:1100px;margin:0 auto;padding:10px;padding-bottom:80px}
+    .app{
+      max-width: var(--app-max);
+      margin: 0 auto;
+      padding:10px;
+      padding-bottom:80px;
+    }
 
     header{
       position:sticky;top:0;z-index:50;
@@ -50,11 +55,11 @@
     }
     .logo-dot::after{content:"";width:16px;height:16px;border-radius:999px;background:#020617}
     .brand-text{display:flex;flex-direction:column;line-height:1.1}
-    .brand-title{font-size:.98rem;font-weight:800;letter-spacing:.02em}
+    .brand-title{font-size:.98rem;font-weight:900;letter-spacing:.02em}
     .brand-sub{font-size:.7rem;color:var(--muted)}
     .header-info{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
     .header-time{font-size:.72rem;color:var(--muted)}
-    .header-shop{font-size:.75rem;font-weight:700}
+    .header-shop{font-size:.75rem;font-weight:800}
 
     .tabs{display:flex;margin-top:8px;gap:6px;overflow-x:auto;padding-bottom:4px}
     .tab-btn{
@@ -74,8 +79,8 @@
       box-shadow:0 0 18px rgba(37,99,235,.6);
     }
 
-    main{margin-top:10px;display:grid;grid-template-columns:1.1fr .9fr;gap:10px}
-    @media(max-width:768px){ main{grid-template-columns:1fr} }
+    /* 1 kolom untuk semua device */
+    main{margin-top:10px;display:grid;grid-template-columns:1fr;gap:10px}
 
     .card{
       background:radial-gradient(circle at top left,rgba(37,99,235,.2),rgba(15,23,42,.98));
@@ -85,25 +90,12 @@
       box-shadow:0 18px 40px rgba(15,23,42,.9);
     }
     .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
-    .card-title{font-size:.85rem;font-weight:800;letter-spacing:.02em}
+    .card-title{font-size:.85rem;font-weight:900;letter-spacing:.02em}
     .pill{
       font-size:.68rem;padding:2px 8px;border-radius:999px;
       background:rgba(15,23,42,.7);
       border:1px solid rgba(148,163,184,.4);
       color:var(--muted);
-    }
-
-    /* ===== KUNCI: semua tab kanan dibuat "narrow" seperti Setting ===== */
-    .right-panel{
-      max-width: var(--narrow-max);
-      width: 100%;
-      margin: 0 auto;     /* selalu center */
-    }
-    /* Panel kiri (Kasir) juga dibuat lebar sama, supaya konsisten */
-    .left-panel{
-      max-width: var(--narrow-max);
-      width: 100%;
-      margin: 0 auto;
     }
 
     .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
@@ -126,7 +118,7 @@
       display:inline-flex;align-items:center;justify-content:center;
       padding:10px 12px;border-radius:999px;border:none;
       background:linear-gradient(to right,#2563eb,#4f46e5);
-      color:#fff;font-size: var(--control-font);font-weight:800;cursor:pointer;
+      color:#fff;font-size: var(--control-font);font-weight:900;cursor:pointer;
       min-height: var(--control-minh);
     }
     .btn-secondary{background:rgba(15,23,42,.9);border:1px solid rgba(148,163,184,.5);color:var(--muted)}
@@ -142,7 +134,7 @@
     }
     table{width:100%;border-collapse:collapse;font-size:.75rem;min-width:520px}
     th,td{padding:6px 6px;text-align:left;border-bottom:1px solid rgba(30,64,175,.6)}
-    th{position:sticky;top:0;background:#020617;z-index:1;font-weight:700;color:var(--muted)}
+    th{position:sticky;top:0;background:#020617;z-index:1;font-weight:800;color:var(--muted)}
     tr:nth-child(even) td{background:rgba(15,23,42,.7)}
 
     .tag{font-size:.68rem;padding:1px 6px;border-radius:999px;background:rgba(22,163,74,.12);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
@@ -158,18 +150,20 @@
       border:1px solid rgba(129,140,248,.6);
     }
     .summary-label{font-size:.7rem;color:var(--muted)}
-    .summary-value{margin-top:4px;font-size:.95rem;font-weight:900}
+    .summary-value{margin-top:4px;font-size:.95rem;font-weight:950}
     .summary-sub{font-size:.65rem;color:var(--muted);margin-top:2px}
 
     .bottom-bar{position:fixed;bottom:6px;left:0;right:0;padding:0 10px;z-index:50}
     .bottom-inner{
-      max-width:1100px;margin:0 auto;padding:6px;border-radius:999px;
+      max-width: var(--app-max);
+      margin: 0 auto;
+      padding:6px;border-radius:999px;
       background:rgba(15,23,42,.96);
       border:1px solid rgba(148,163,184,.4);
       display:flex;align-items:center;gap:6px;
     }
     .bottom-totals{flex:1;display:flex;flex-direction:column;gap:2px}
-    .bottom-main{font-size:.78rem;font-weight:900}
+    .bottom-main{font-size:.78rem;font-weight:950}
     .bottom-sub{font-size:.68rem;color:var(--muted)}
 
     .backdrop{
@@ -184,7 +178,7 @@
       border:1px solid rgba(148,163,184,.5);
       box-shadow:0 25px 70px rgba(15,23,42,.9);
     }
-    .dialog-title{font-size:1rem;font-weight:900;margin-bottom:4px}
+    .dialog-title{font-size:1rem;font-weight:950;margin-bottom:4px}
     .dialog-sub{font-size:.75rem;color:var(--muted);margin-bottom:10px}
 
     .receipt-preview{
@@ -194,20 +188,32 @@
     }
     .receipt-actions{display:flex;margin-top:8px;gap:6px}
 
+    /* ===== PRINT FIX =====
+       Saat print: sembunyikan UI, tampilkan hanya .printme (area struk). [web:116][web:121]
+    */
+    .printme{ display:none; }
     @media print{
-      body{background:#fff}
-      .no-print{display:none !important}
-      .print-area{display:block}
+      .no-print{ display:none !important; }
+      .printme{ display:block !important; }
+      body{ background:#fff !important; }
     }
-    .print-area{display:none;font-family:"Courier New",monospace;font-size:11px;white-space:pre-wrap}
+
+    /* Area struk */
+    #printArea{
+      font-family:"Courier New",monospace;
+      font-size:11px;
+      white-space:pre-wrap;
+      color:#000;
+      background:#fff;
+    }
   </style>
 </head>
 
 <body>
   <!-- LOGIN -->
-  <div id="loginBackdrop" class="backdrop">
-    <div class="dialog no-print">
-      <div class="dialog-title">Masuk Web Kasir 2.3</div>
+  <div id="loginBackdrop" class="backdrop no-print">
+    <div class="dialog">
+      <div class="dialog-title">Masuk Web Kasir 2.4</div>
       <div class="dialog-sub">Masukkan kode akses untuk menggunakan aplikasi kasir.</div>
 
       <div class="field-group">
@@ -224,8 +230,8 @@
   </div>
 
   <!-- STRUK MODAL -->
-  <div id="receiptBackdrop" class="backdrop" style="display:none;">
-    <div class="dialog no-print">
+  <div id="receiptBackdrop" class="backdrop no-print" style="display:none;">
+    <div class="dialog">
       <div class="dialog-title">Pratinjau Struk</div>
       <div class="dialog-sub">Pilih ukuran kertas lalu tekan Cetak.</div>
 
@@ -246,8 +252,8 @@
     </div>
   </div>
 
-  <!-- AREA STRUK UNTUK PRINT -->
-  <div id="printArea" class="print-area"></div>
+  <!-- AREA STRUK UNTUK PRINT (PRINT ONLY) -->
+  <div id="printArea" class="printme"></div>
 
   <!-- APP -->
   <div class="app no-print" id="app" style="display:none;">
@@ -255,7 +261,7 @@
       <div class="brand">
         <div class="logo-dot"></div>
         <div class="brand-text">
-          <span class="brand-title">Web Kasir 2.3</span>
+          <span class="brand-title">Web Kasir 2.4</span>
           <span class="brand-sub">Single Page • LocalStorage</span>
         </div>
       </div>
@@ -273,8 +279,8 @@
     </div>
 
     <main>
-      <!-- PANEL KIRI: (dibuat narrow juga supaya sama seperti Setting) -->
-      <section id="tabKasirContent" class="card left-panel">
+      <!-- KASIR (produk list) -->
+      <section id="tabKasirContent" class="card">
         <div class="card-header">
           <span class="card-title">Transaksi Kasir</span>
           <span class="pill" id="kasirStatus">Siap</span>
@@ -311,162 +317,167 @@
         </div>
       </section>
 
-      <!-- PANEL KANAN (SEMUA TAB DI SINI) -->
-      <section class="card right-panel">
-        <!-- KERANJANG -->
-        <div id="cartSection">
-          <div class="card-header">
-            <span class="card-title">Keranjang</span>
-            <button class="btn-sm btn btn-secondary" onclick="clearCart()">Bersihkan</button>
-          </div>
-
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Item</th>
-                  <th>Qty</th>
-                  <th>Subtotal</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="cartTableBody"></tbody>
-            </table>
-          </div>
-
-          <div class="summary-box">
-            <div class="summary-item">
-              <div class="summary-label">Total Bayar</div>
-              <div class="summary-value" id="totalBayarText">Rp 0</div>
-              <div class="summary-sub" id="totalItemText">0 item</div>
-            </div>
-            <div class="summary-item">
-              <div class="summary-label">Estimasi Laba</div>
-              <div class="summary-value" id="totalProfitText">Rp 0</div>
-              <div class="summary-sub">Diskon item sudah dihitung</div>
-            </div>
-          </div>
-
-          <div style="margin-top:8px;" class="grid-2">
-            <div class="field-group">
-              <label>Bayar (Tunai)</label>
-              <input type="number" id="bayarInput" value="0" min="0" oninput="updateChange()" />
-            </div>
-            <div class="field-group">
-              <label>Kembalian</label>
-              <input type="text" id="kembaliInput" readonly />
-            </div>
-          </div>
-
-          <button class="btn btn-block" style="margin-top:6px;" onclick="finishTransaction()">Simpan & Cetak Struk</button>
+      <!-- KERANJANG -->
+      <section id="cartSection" class="card">
+        <div class="card-header">
+          <span class="card-title">Keranjang</span>
+          <button class="btn-sm btn btn-secondary" onclick="clearCart()">Bersihkan</button>
         </div>
 
-        <!-- PRODUK -->
-        <div id="productSection" style="display:none;">
-          <div class="card-header">
-            <span class="card-title">Master Produk</span>
-            <button class="btn-sm btn btn-secondary" onclick="resetProductForm()">Baru</button>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Subtotal</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="cartTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-item">
+            <div class="summary-label">Total Bayar</div>
+            <div class="summary-value" id="totalBayarText">Rp 0</div>
+            <div class="summary-sub" id="totalItemText">0 item</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Total Keuntungan</div>
+            <div class="summary-value" id="totalProfitText">Rp 0</div>
+            <div class="summary-sub">Untuk laporan (tidak dicetak)</div>
+          </div>
+        </div>
+
+        <div style="margin-top:8px;" class="grid-2">
+          <div class="field-group">
+            <label>Bayar (Tunai)</label>
+            <input type="number" id="bayarInput" value="0" min="0" oninput="updateChange()" />
+          </div>
+          <div class="field-group">
+            <label>Kembalian</label>
+            <input type="text" id="kembaliInput" readonly />
+          </div>
+        </div>
+
+        <button class="btn btn-block" style="margin-top:6px;" onclick="finishTransaction()">Simpan & Cetak Struk</button>
+      </section>
+
+      <!-- PRODUK -->
+      <section id="productSection" class="card" style="display:none;">
+        <div class="card-header">
+          <span class="card-title">Master Produk</span>
+          <button class="btn-sm btn btn-secondary" onclick="resetProductForm()">Baru</button>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group"><label>Nama Produk</label><input id="pName" /></div>
+          <div class="field-group"><label>Kode SKU</label><input id="pSku" /></div>
+          <div class="field-group"><label>Harga Beli</label><input type="number" id="pBuy" min="0" /></div>
+          <div class="field-group"><label>Harga Jual</label><input type="number" id="pSell" min="0" /></div>
+          <div class="field-group"><label>Stok</label><input type="number" id="pStock" min="0" /></div>
+          <div class="field-group"><label>Keterangan</label><input id="pNote" /></div>
+        </div>
+
+        <div class="grid-2" style="margin-top:4px;">
+          <button class="btn btn-block" onclick="saveProduct()">Simpan Produk</button>
+          <button class="btn btn-block btn-danger" onclick="deleteSelectedProduct()">Hapus Produk</button>
+        </div>
+
+        <div class="field-group" style="margin-top:6px;">
+          <label>Cari Produk</label>
+          <input id="productSearchAdmin" oninput="renderProductAdmin()" placeholder="Filter produk..." />
+        </div>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Pilih</th>
+                <th>Produk</th>
+                <th>Harga</th>
+                <th>Stok</th>
+              </tr>
+            </thead>
+            <tbody id="productAdminBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- LAPORAN -->
+      <section id="reportSection" class="card" style="display:none;">
+        <div class="card-header">
+          <span class="card-title">Laporan Bulanan</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="field-group">
+            <label>Pilih Bulan</label>
+            <input type="month" id="reportMonth" />
+          </div>
+          <div class="field-group" style="align-self:flex-end;">
+            <button class="btn btn-block" onclick="downloadReport()">Download Laporan (CSV)</button>
+          </div>
+        </div>
+
+        <div class="summary-box">
+          <div class="summary-item">
+            <div class="summary-label">Total Penjualan</div>
+            <div class="summary-value" id="reportSalesText">Rp 0</div>
+            <div class="summary-sub">Total transaksi bulan ini</div>
+          </div>
+          <div class="summary-item">
+            <div class="summary-label">Total Keuntungan</div>
+            <div class="summary-value" id="reportProfitText">Rp 0</div>
+            <div class="summary-sub">Perkiraan dari HPP</div>
+          </div>
+        </div>
+
+        <div class="table-wrapper" style="margin-top:6px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Invoice</th>
+                <th>Total</th>
+                <th>Laba</th>
+              </tr>
+            </thead>
+            <tbody id="reportTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- SETTING -->
+      <section id="settingSection" class="card" style="display:none;">
+        <div class="card-header">
+          <span class="card-title">Pengaturan Toko</span>
+        </div>
+
+        <div class="field-group"><label>Nama Toko</label><input id="sName" /></div>
+        <div class="field-group"><label>Alamat</label><textarea id="sAddress"></textarea></div>
+        <div class="field-group"><label>No. HP</label><input id="sPhone" /></div>
+        <div class="field-group"><label>Catatan Struk (opsional)</label><input id="sFooter" placeholder="Terima kasih telah berbelanja" /></div>
+
+        <button class="btn btn-block" onclick="saveSettings()">Simpan Setting</button>
+
+        <div style="margin-top:10px;padding-top:6px;border-top:1px dashed rgba(148,163,184,.4);">
+          <div class="card-header" style="padding:0;margin-bottom:4px;">
+            <span class="card-title">Data (JSON)</span>
           </div>
 
           <div class="grid-2">
-            <div class="field-group"><label>Nama Produk</label><input id="pName" /></div>
-            <div class="field-group"><label>Kode SKU</label><input id="pSku" /></div>
-            <div class="field-group"><label>Harga Beli</label><input type="number" id="pBuy" min="0" /></div>
-            <div class="field-group"><label>Harga Jual</label><input type="number" id="pSell" min="0" /></div>
-            <div class="field-group"><label>Stok</label><input type="number" id="pStock" min="0" /></div>
-            <div class="field-group"><label>Keterangan</label><input id="pNote" /></div>
+            <button class="btn btn-block btn-secondary" onclick="exportAllData()">Export JSON</button>
+            <button class="btn btn-block" onclick="triggerImport()">Import JSON</button>
           </div>
 
-          <div class="grid-2" style="margin-top:4px;">
-            <button class="btn btn-block" onclick="saveProduct()">Simpan Produk</button>
-            <button class="btn btn-block btn-danger" onclick="deleteSelectedProduct()">Hapus Produk</button>
-          </div>
+          <input type="file" id="importFile" accept="application/json" style="display:none;" onchange="importAllData(event)" />
 
-          <div class="field-group" style="margin-top:6px;">
-            <label>Cari Produk</label>
-            <input id="productSearchAdmin" oninput="renderProductAdmin()" placeholder="Filter produk..." />
-          </div>
-
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th>Pilih</th>
-                  <th>Produk</th>
-                  <th>Harga</th>
-                  <th>Stok</th>
-                </tr>
-              </thead>
-              <tbody id="productAdminBody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- LAPORAN -->
-        <div id="reportSection" style="display:none;">
-          <div class="card-header">
-            <span class="card-title">Laporan Bulanan</span>
-          </div>
-
-          <div class="grid-2">
-            <div class="field-group">
-              <label>Pilih Bulan</label>
-              <input type="month" id="reportMonth" />
-            </div>
-            <div class="field-group" style="align-self:flex-end;">
-              <button class="btn btn-block" onclick="downloadReport()">Download Laporan (CSV)</button>
-            </div>
-          </div>
-
-          <div class="summary-box">
-            <div class="summary-item">
-              <div class="summary-label">Total Penjualan</div>
-              <div class="summary-value" id="reportSalesText">Rp 0</div>
-              <div class="summary-sub">Total transaksi bulan ini</div>
-            </div>
-            <div class="summary-item">
-              <div class="summary-label">Total Keuntungan</div>
-              <div class="summary-value" id="reportProfitText">Rp 0</div>
-              <div class="summary-sub">Perkiraan dari HPP</div>
-            </div>
-          </div>
-
-          <div class="table-wrapper" style="margin-top:6px;">
-            <table>
-              <thead>
-                <tr>
-                  <th>Tanggal</th>
-                  <th>Invoice</th>
-                  <th>Total</th>
-                  <th>Laba</th>
-                </tr>
-              </thead>
-              <tbody id="reportTableBody"></tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- SETTING -->
-        <div id="settingSection" style="display:none;">
-          <div class="card-header">
-            <span class="card-title">Pengaturan Toko</span>
-          </div>
-
-          <div class="field-group"><label>Nama Toko</label><input id="sName" /></div>
-          <div class="field-group"><label>Alamat</label><textarea id="sAddress"></textarea></div>
-          <div class="field-group"><label>No. HP</label><input id="sPhone" /></div>
-          <div class="field-group"><label>Catatan Struk (opsional)</label><input id="sFooter" placeholder="Terima kasih telah berbelanja" /></div>
-
-          <button class="btn btn-block" onclick="saveSettings()">Simpan Setting</button>
-
-          <div style="margin-top:10px;padding-top:6px;border-top:1px dashed rgba(148,163,184,.4);">
-            <div class="card-header" style="padding:0;margin-bottom:4px;">
-              <span class="card-title">Utilitas Data</span>
-            </div>
-            <div class="grid-2">
-              <button class="btn btn-block btn-secondary" onclick="exportAllData()">Export Semua Data (JSON)</button>
-              <button class="btn btn-block btn-danger" onclick="if(confirm('Hapus semua data?')){localStorage.clear();location.reload();}">Reset Aplikasi</button>
-            </div>
+          <div class="grid-2" style="margin-top:6px;">
+            <button class="btn btn-block btn-danger" onclick="if(confirm('Hapus semua data?')){localStorage.clear();location.reload();}">Reset Aplikasi</button>
+            <button class="btn btn-block btn-secondary" onclick="alert('Tips: export JSON dulu sebelum reset.')">Info</button>
           </div>
         </div>
       </section>
@@ -484,6 +495,7 @@
   </div>
 
   <script>
+    // ========= LOGIN =========
     const ACCESS_CODE = "fuadeli";
     function checkAccess(){
       const val = document.getElementById("accessInput").value.trim();
@@ -494,6 +506,7 @@
       document.getElementById("app").style.display = "block";
     }
 
+    // ====== STORAGE KEYS ======
     const KEY_PRODUCTS = "pos_products_v1";
     const KEY_SETTINGS = "pos_settings_v1";
     const KEY_SALES = "pos_sales_v1";
@@ -503,9 +516,11 @@
     let sales = [];
     let selectedProductId = null;
 
+    // ====== LOAD/SAVE ======
     function loadData(){
       products = JSON.parse(localStorage.getItem(KEY_PRODUCTS) || "[]");
       sales = JSON.parse(localStorage.getItem(KEY_SALES) || "[]");
+
       const s = JSON.parse(localStorage.getItem(KEY_SETTINGS) || "null");
       if(s){
         document.getElementById("sName").value = s.name || "";
@@ -520,12 +535,14 @@
       initReportMonth();
       refreshReport();
     }
-
     function saveProducts(){ localStorage.setItem(KEY_PRODUCTS, JSON.stringify(products)); }
     function saveSales(){ localStorage.setItem(KEY_SALES, JSON.stringify(sales)); }
 
+    // ====== UTIL ======
     function formatRupiah(n){ n = Number(n || 0); return "Rp " + n.toLocaleString("id-ID"); }
     function generateId(prefix){ return prefix + "_" + Date.now() + "_" + Math.floor(Math.random()*9999); }
+    function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+
     function getSettings(){
       return {
         name: document.getElementById("sName").value.trim() || "Nama Toko",
@@ -535,6 +552,7 @@
       };
     }
 
+    // ====== TABS ======
     function showTab(tab){
       const tabs = ["kasir","produk","laporan","setting"];
       tabs.forEach(t => document.getElementById("tab"+cap(t)).classList.toggle("active", t===tab));
@@ -545,8 +563,8 @@
       document.getElementById("reportSection").style.display = (tab==="laporan") ? "block":"none";
       document.getElementById("settingSection").style.display = (tab==="setting") ? "block":"none";
     }
-    function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
+    // ====== KASIR: LIST PRODUK ======
     function renderProductList(){
       const body = document.getElementById("productTableBody");
       const q = document.getElementById("searchInput").value.toLowerCase();
@@ -603,6 +621,7 @@
       renderCart();
     }
 
+    // ====== KERANJANG ======
     function renderCart(){
       const body = document.getElementById("cartTableBody");
       body.innerHTML = "";
@@ -695,6 +714,7 @@
         + "-" + String(now.getHours()).padStart(2,"0") + String(now.getMinutes()).padStart(2,"0")
         + "-" + Math.floor(Math.random()*999);
 
+      // kurangi stok
       cart.forEach(c => {
         const p = products.find(x => x.id === c.productId);
         if(p) p.stock = Number(p.stock||0) - c.qty;
@@ -717,9 +737,11 @@
       renderProductList();
       refreshReport();
 
+      // struk (hapus baris "perkiraan laba" sesuai permintaan)
       const receiptText = buildReceipt(trx, getSettings());
       document.getElementById("receiptPreview").textContent = receiptText;
       document.getElementById("printArea").textContent = receiptText;
+
       document.getElementById("receiptBackdrop").style.display = "flex";
 
       cart = [];
@@ -728,6 +750,7 @@
       updateChange();
     }
 
+    // ====== STRUK (tanpa perkiraan laba) ======
     function buildReceipt(trx, s){
       const d = new Date(trx.date);
       let lines = [];
@@ -751,8 +774,6 @@
       lines.push(padRight("Total", 20) + padLeft(formatRupiah(trx.total), 12));
       lines.push(padRight("Bayar", 20) + padLeft(formatRupiah(trx.bayar), 12));
       lines.push(padRight("Kembali", 20) + padLeft(formatRupiah(trx.kembali), 12));
-      lines.push("-".repeat(32));
-      lines.push("Perkiraan laba: " + formatRupiah(trx.profit));
       lines.push("-".repeat(32));
       lines.push(centerText(s.footer || "Terima kasih.", 32));
       return lines.join("\n");
@@ -779,14 +800,19 @@
       const size = document.getElementById("paperSize").value;
       const style = document.createElement("style");
       style.id = "printStyle";
+      // Penting: pastikan printArea punya ukuran & padding, dan tampil saat print
       style.innerHTML = (size === "58")
-        ? "@page{size:58mm auto;margin:0;} body{margin:0;} #printArea{width:58mm;padding:2mm 1mm;}"
-        : "@page{size:80mm auto;margin:0;} body{margin:0;} #printArea{width:80mm;padding:3mm 2mm;}";
+        ? "@page{size:58mm auto;margin:0;} #printArea{width:58mm;padding:2mm 1mm;}"
+        : "@page{size:80mm auto;margin:0;} #printArea{width:80mm;padding:3mm 2mm;}";
       document.head.appendChild(style);
+
+      // window.print cetak hanya yang tampil di @media print (printme)
       window.print();
+
       document.getElementById("printStyle")?.remove();
     }
 
+    // ====== PRODUK (ADMIN) ======
     function resetProductForm(){
       selectedProductId = null;
       ["pName","pSku","pBuy","pSell","pStock","pNote"].forEach(id => document.getElementById(id).value = "");
@@ -871,6 +897,7 @@
       renderProductList();
     }
 
+    // ====== SETTING ======
     function saveSettings(){
       const s = getSettings();
       localStorage.setItem(KEY_SETTINGS, JSON.stringify(s));
@@ -878,17 +905,63 @@
       alert("Setting tersimpan.");
     }
 
+    // ====== EXPORT/IMPORT JSON ======
     function exportAllData(){
-      const data = { products, sales, settings: getSettings() };
+      const data = {
+        version: "2.4",
+        exportedAt: new Date().toISOString(),
+        products,
+        sales,
+        settings: getSettings()
+      };
       const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href=url;
-      a.download="backup_web_kasir_2_3_"+new Date().toISOString().slice(0,10)+".json";
+      a.download="web_kasir_2_4_backup_"+new Date().toISOString().slice(0,10)+".json";
       a.click();
       URL.revokeObjectURL(url);
     }
 
+    function triggerImport(){
+      document.getElementById("importFile").value = "";
+      document.getElementById("importFile").click();
+    }
+
+    async function importAllData(event){
+      const file = event.target.files && event.target.files[0];
+      if(!file) return;
+
+      try{
+        const text = await file.text();
+        const data = JSON.parse(text);
+
+        if(!data || typeof data !== "object") throw new Error("Format JSON tidak valid.");
+
+        // Validasi minimal
+        const newProducts = Array.isArray(data.products) ? data.products : null;
+        const newSales = Array.isArray(data.sales) ? data.sales : null;
+        const newSettings = (data.settings && typeof data.settings === "object") ? data.settings : null;
+
+        if(!newProducts || !newSales || !newSettings){
+          throw new Error("File tidak sesuai format backup Web Kasir (harus ada products, sales, settings).");
+        }
+
+        if(!confirm("Import akan menimpa data di perangkat ini. Lanjutkan?")) return;
+
+        // Simpan ke localStorage
+        localStorage.setItem(KEY_PRODUCTS, JSON.stringify(newProducts));
+        localStorage.setItem(KEY_SALES, JSON.stringify(newSales));
+        localStorage.setItem(KEY_SETTINGS, JSON.stringify(newSettings));
+
+        alert("Import berhasil. Aplikasi akan reload.");
+        location.reload();
+      }catch(err){
+        alert("Gagal import: " + (err.message || err));
+      }
+    }
+
+    // ====== LAPORAN ======
     function initReportMonth(){
       document.getElementById("reportMonth").value = new Date().toISOString().slice(0,7);
     }
@@ -945,11 +1018,12 @@
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href=url;
-      a.download="laporan_"+monthStr+"_web_kasir_2_3.csv";
+      a.download="laporan_"+monthStr+"_web_kasir_2_4.csv";
       a.click();
       URL.revokeObjectURL(url);
     }
 
+    // ====== JAM REALTIME ======
     function updateDateTime(){
       const el = document.getElementById("datetimeText");
       const now = new Date();
@@ -960,6 +1034,7 @@
     setInterval(updateDateTime, 1000);
     updateDateTime();
 
+    // ====== INIT ======
     window.addEventListener("load", () => {
       loadData();
       showTab("kasir");
