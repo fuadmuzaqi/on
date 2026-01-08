@@ -2,225 +2,176 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Web Kasir Pro Mobile</title>
+  <title>Web Kasir 2.1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
-    :root {
-      --primary: #2563eb;
-      --danger: #dc2626;
-      --bg: #0f172a;
-      --text: #e5e7eb;
-      --muted: #9ca3af;
-      --radius: 10px;
+    :root{
+      --primary:#2563eb;
+      --danger:#dc2626;
+      --text:#e5e7eb;
+      --muted:#9ca3af;
+      --radius:10px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+    body{
+      background:radial-gradient(circle at top,#1e293b,#020617);
+      color:var(--text);
+      min-height:100vh;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .app{max-width:1100px;margin:0 auto;padding:10px;padding-bottom:80px}
 
-    body {
-      background: radial-gradient(circle at top, #1e293b, #020617);
-      color: var(--text);
-      min-height: 100vh;
+    header{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(14px);
+      background:linear-gradient(to right,rgba(15,23,42,.96),rgba(15,23,42,.9));
+      border-bottom:1px solid rgba(148,163,184,.3);
+      padding:8px 10px;
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+    }
+    .brand{display:flex;align-items:center;gap:8px}
+    .logo-dot{
+      width:26px;height:26px;border-radius:999px;
+      background:conic-gradient(from 210deg,#22c55e,#22d3ee,#2563eb,#4f46e5);
+      display:flex;align-items:center;justify-content:center;position:relative;
+      box-shadow:0 0 20px rgba(56,189,248,.6);
+    }
+    .logo-dot::after{content:"";width:16px;height:16px;border-radius:999px;background:#020617}
+    .brand-text{display:flex;flex-direction:column;line-height:1.1}
+    .brand-title{font-size:.98rem;font-weight:600;letter-spacing:.02em}
+    .brand-sub{font-size:.7rem;color:var(--muted)}
+
+    .header-info{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+    .header-time{font-size:.72rem;color:var(--muted)}
+    .header-shop{font-size:.75rem;font-weight:500}
+
+    .tabs{display:flex;margin-top:8px;gap:6px;overflow-x:auto;padding-bottom:4px}
+    .tab-btn{
+      flex:1;min-width:90px;
+      padding:8px 6px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.4);
+      background:rgba(15,23,42,.7);
+      color:var(--muted);
+      font-size:.78rem;
+      display:flex;align-items:center;justify-content:center;
+      white-space:nowrap;cursor:pointer;
+    }
+    .tab-btn.active{
+      background:linear-gradient(to right,#2563eb,#4f46e5);
+      color:#f9fafb;border-color:transparent;
+      box-shadow:0 0 18px rgba(37,99,235,.6);
     }
 
-    .app { max-width: 1100px; margin: 0 auto; padding: 10px; padding-bottom: 80px; }
+    main{margin-top:10px;display:grid;grid-template-columns:1.1fr .9fr;gap:10px}
+    @media(max-width:768px){main{grid-template-columns:1fr}}
 
-    header {
-      position: sticky; top: 0; z-index: 50;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(to right, rgba(15,23,42,0.96), rgba(15,23,42,0.9));
-      border-bottom: 1px solid rgba(148,163,184,0.3);
-      padding: 8px 10px;
-      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    .card{
+      background:radial-gradient(circle at top left,rgba(37,99,235,.2),rgba(15,23,42,.98));
+      border-radius:var(--radius);
+      border:1px solid rgba(148,163,184,.3);
+      padding:10px;
+      box-shadow:0 18px 40px rgba(15,23,42,.9);
+    }
+    .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .card-title{font-size:.85rem;font-weight:600;letter-spacing:.02em}
+    .pill{
+      font-size:.68rem;padding:2px 8px;border-radius:999px;
+      background:rgba(15,23,42,.7);
+      border:1px solid rgba(148,163,184,.4);
+      color:var(--muted);
     }
 
-    .brand { display: flex; align-items: center; gap: 8px; }
-    .logo-dot {
-      width: 26px; height: 26px; border-radius: 999px;
-      background: conic-gradient(from 210deg, #22c55e, #22d3ee, #2563eb, #4f46e5);
-      display: flex; align-items: center; justify-content: center; position: relative;
-      box-shadow: 0 0 20px rgba(56,189,248,0.6);
+    .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:8px}
+    label{font-size:.75rem;color:var(--muted)}
+    input,select,textarea{
+      width:100%;padding:10px 10px;border-radius:999px;
+      border:1px solid rgba(148,163,184,.5);
+      background:rgba(15,23,42,.9);color:var(--text);
+      font-size:.85rem;outline:none;
+      min-height:44px; /* touch-friendly */
     }
-    .logo-dot::after { content: ""; width: 16px; height: 16px; border-radius: 999px; background: #020617; }
+    textarea{border-radius:10px;resize:vertical;min-height:70px}
+    input:focus,select:focus,textarea:focus{border-color:#60a5fa;box-shadow:0 0 0 1px rgba(37,99,235,.4)}
 
-    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
-    .brand-title { font-size: 0.98rem; font-weight: 600; letter-spacing: 0.02em; }
-    .brand-sub { font-size: 0.7rem; color: var(--muted); }
-
-    .header-info { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
-    .header-time { font-size: 0.72rem; color: var(--muted); }
-    .header-shop { font-size: 0.75rem; font-weight: 500; }
-
-    .tabs { display: flex; margin-top: 8px; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
-    .tab-btn {
-      flex: 1; min-width: 90px;
-      padding: 8px 6px; border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.4);
-      background: rgba(15,23,42,0.7);
-      color: var(--muted);
-      font-size: 0.78rem;
-      display: flex; align-items: center; justify-content: center; gap: 4px; white-space: nowrap;
-      cursor: pointer;
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;
+      padding:10px 12px;border-radius:999px;border:none;
+      background:linear-gradient(to right,#2563eb,#4f46e5);
+      color:#fff;font-size:.85rem;font-weight:600;cursor:pointer;
+      min-height:44px; /* touch-friendly */
     }
-    .tab-btn.active {
-      background: linear-gradient(to right, #2563eb, #4f46e5);
-      color: #f9fafb;
-      border-color: transparent;
-      box-shadow: 0 0 18px rgba(37,99,235,0.6);
+    .btn-secondary{background:rgba(15,23,42,.9);border:1px solid rgba(148,163,184,.5);color:var(--muted)}
+    .btn-danger{background:linear-gradient(to right,#dc2626,#b91c1c)}
+    .btn-block{width:100%}
+    .btn-sm{padding:6px 10px;font-size:.75rem;min-height:36px}
+
+    .table-wrapper{
+      max-height:260px;overflow:auto;border-radius:9px;
+      border:1px solid rgba(148,163,184,.4);
+      background:rgba(15,23,42,.92);
+      margin-top:6px;
     }
+    table{width:100%;border-collapse:collapse;font-size:.75rem;min-width:520px}
+    th,td{padding:6px 6px;text-align:left;border-bottom:1px solid rgba(30,64,175,.6)}
+    th{position:sticky;top:0;background:#020617;z-index:1;font-weight:500;color:var(--muted)}
+    tr:nth-child(even) td{background:rgba(15,23,42,.7)}
 
-    main { margin-top: 10px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 10px; }
-    @media (max-width: 768px) { main { grid-template-columns: 1fr; } }
+    .tag{font-size:.68rem;padding:1px 6px;border-radius:999px;background:rgba(22,163,74,.12);color:#4ade80;border:1px solid rgba(34,197,94,.45)}
+    .tag-low{background:rgba(248,113,113,.12);color:#fecaca;border-color:rgba(248,113,113,.45)}
 
-    .card {
-      background: radial-gradient(circle at top left, rgba(37,99,235,0.2), rgba(15,23,42,0.98));
-      border-radius: var(--radius);
-      border: 1px solid rgba(148,163,184,0.3);
-      padding: 10px;
-      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+    @media(max-width:520px){.grid-2{grid-template-columns:1fr}}
+
+    .summary-box{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin-top:6px}
+    .summary-item{
+      padding:8px;border-radius:9px;
+      background:radial-gradient(circle at top,rgba(37,99,235,.25),rgba(15,23,42,.96));
+      border:1px solid rgba(129,140,248,.6);
     }
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
-    .card-title { font-size: 0.85rem; font-weight: 600; letter-spacing: 0.02em; }
+    .summary-label{font-size:.7rem;color:var(--muted)}
+    .summary-value{margin-top:4px;font-size:.95rem;font-weight:700}
+    .summary-sub{font-size:.65rem;color:var(--muted);margin-top:2px}
 
-    .pill {
-      font-size: 0.68rem; padding: 2px 8px; border-radius: 999px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(148,163,184,0.4);
-      color: var(--muted);
+    .bottom-bar{position:fixed;bottom:6px;left:0;right:0;padding:0 10px;z-index:50}
+    .bottom-inner{
+      max-width:1100px;margin:0 auto;padding:6px;border-radius:999px;
+      background:rgba(15,23,42,.96);
+      border:1px solid rgba(148,163,184,.4);
+      display:flex;align-items:center;gap:6px;
     }
+    .bottom-totals{flex:1;display:flex;flex-direction:column;gap:2px}
+    .bottom-main{font-size:.78rem;font-weight:700}
+    .bottom-sub{font-size:.68rem;color:var(--muted)}
 
-    .field-group { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
-    label { font-size: 0.75rem; color: var(--muted); }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 8px 9px;
-      border-radius: 999px;
-      border: 1px solid rgba(148,163,184,0.5);
-      background: rgba(15,23,42,0.9);
-      color: var(--text);
-      font-size: 0.8rem;
-      outline: none;
+    .backdrop{
+      position:fixed;inset:0;
+      background:radial-gradient(circle at top,rgba(37,99,235,.35),rgba(15,23,42,.96));
+      display:flex;align-items:center;justify-content:center;
+      z-index:100;
     }
-    textarea { border-radius: 10px; resize: vertical; min-height: 60px; }
-    input:focus, select:focus, textarea:focus { border-color: #60a5fa; box-shadow: 0 0 0 1px rgba(37,99,235,0.4); }
-
-    .btn {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(to right, #2563eb, #4f46e5);
-      color: white;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      gap: 6px;
+    .dialog{
+      width:100%;max-width:360px;margin:12px;border-radius:16px;padding:16px;
+      background:radial-gradient(circle at top,rgba(37,99,235,.28),rgba(15,23,42,.98));
+      border:1px solid rgba(148,163,184,.5);
+      box-shadow:0 25px 70px rgba(15,23,42,.9);
     }
-    .btn-secondary { background: rgba(15,23,42,0.9); border: 1px solid rgba(148,163,184,0.5); color: var(--muted); }
-    .btn-danger { background: linear-gradient(to right, #dc2626, #b91c1c); }
-    .btn-block { width: 100%; }
-    .btn-sm { padding: 5px 8px; font-size: 0.72rem; border-radius: 999px; }
+    .dialog-title{font-size:1rem;font-weight:700;margin-bottom:4px}
+    .dialog-sub{font-size:.75rem;color:var(--muted);margin-bottom:10px}
 
-    .table-wrapper {
-      max-height: 260px; overflow: auto;
-      border-radius: 9px;
-      border: 1px solid rgba(148,163,184,0.4);
-      background: rgba(15,23,42,0.92);
-      margin-top: 6px;
+    .receipt-preview{
+      font-family:"Courier New",monospace;font-size:11px;
+      white-space:pre-wrap;background:#fff;color:#000;
+      padding:8px;border-radius:6px;max-height:260px;overflow:auto;
     }
+    .receipt-actions{display:flex;margin-top:8px;gap:6px}
 
-    table { width: 100%; border-collapse: collapse; font-size: 0.75rem; min-width: 500px; }
-    th, td { padding: 6px 6px; text-align: left; border-bottom: 1px solid rgba(30,64,175,0.6); }
-    th { position: sticky; top: 0; background: #020617; z-index: 1; font-weight: 500; color: var(--muted); }
-    tr:nth-child(even) td { background: rgba(15,23,42,0.7); }
-
-    .tag {
-      font-size: 0.68rem; padding: 1px 6px; border-radius: 999px;
-      background: rgba(22,163,74,0.12);
-      color: #4ade80;
-      border: 1px solid rgba(34,197,94,0.45);
+    @media print{
+      body{background:#fff}
+      .no-print{display:none !important}
+      .print-area{display:block}
     }
-    .tag-low {
-      background: rgba(248,113,113,0.12);
-      color: #fecaca;
-      border-color: rgba(248,113,113,0.45);
-    }
-
-    .grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px; }
-    @media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
-
-    .summary-box { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 6px; margin-top: 6px; }
-    .summary-item {
-      padding: 8px;
-      border-radius: 9px;
-      background: radial-gradient(circle at top, rgba(37,99,235,0.25), rgba(15,23,42,0.96));
-      border: 1px solid rgba(129,140,248,0.6);
-    }
-    .summary-label { font-size: 0.7rem; color: var(--muted); }
-    .summary-value { margin-top: 4px; font-size: 0.9rem; font-weight: 600; }
-    .summary-sub { font-size: 0.65rem; color: var(--muted); margin-top: 2px; }
-
-    .bottom-bar { position: fixed; bottom: 6px; left: 0; right: 0; padding: 0 10px; z-index: 50; }
-    .bottom-inner {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 6px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.96);
-      border: 1px solid rgba(148,163,184,0.4);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .bottom-totals { flex: 1; display: flex; flex-direction: column; gap: 2px; }
-    .bottom-main { font-size: 0.78rem; font-weight: 600; }
-    .bottom-sub { font-size: 0.68rem; color: var(--muted); }
-
-    .backdrop {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, rgba(37,99,235,0.35), rgba(15,23,42,0.96));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 100;
-    }
-
-    .dialog {
-      width: 100%;
-      max-width: 360px;
-      margin: 12px;
-      border-radius: 16px;
-      padding: 16px;
-      background: radial-gradient(circle at top, rgba(37,99,235,0.28), rgba(15,23,42,0.98));
-      border: 1px solid rgba(148,163,184,0.5);
-      box-shadow: 0 25px 70px rgba(15,23,42,0.9);
-    }
-
-    .dialog-title { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-    .dialog-sub { font-size: 0.75rem; color: var(--muted); margin-bottom: 8px; }
-
-    .receipt-preview {
-      font-family: "Courier New", monospace;
-      font-size: 11px;
-      white-space: pre-wrap;
-      background: white;
-      color: black;
-      padding: 8px;
-      border-radius: 6px;
-      max-height: 260px;
-      overflow: auto;
-    }
-
-    .receipt-actions { display: flex; margin-top: 8px; gap: 6px; }
-
-    @media print {
-      body { background: white; }
-      .no-print { display: none !important; }
-      .print-area { display: block; }
-    }
-    .print-area { display: none; font-family: "Courier New", monospace; font-size: 11px; white-space: pre-wrap; }
+    .print-area{display:none;font-family:"Courier New",monospace;font-size:11px;white-space:pre-wrap}
   </style>
 </head>
 
@@ -228,17 +179,17 @@
   <!-- LOGIN -->
   <div id="loginBackdrop" class="backdrop">
     <div class="dialog no-print">
-      <div class="dialog-title">Masuk Web Kasir</div>
-      <div class="dialog-sub">Masukkan kode akses untuk menggunakan aplikasi kasir ini.</div>
+      <div class="dialog-title">Masuk Web Kasir 2.1</div>
+      <div class="dialog-sub">Masukkan kode akses untuk menggunakan aplikasi kasir.</div>
 
       <div class="field-group">
         <label>Kode Akses</label>
-        <input type="password" id="accessInput" placeholder="Masukkan kode..." />
+        <input type="password" id="accessInput" placeholder="Contoh: fuadeli" />
       </div>
 
       <button class="btn btn-block" onclick="checkAccess()">Masuk</button>
 
-      <div id="loginError" style="margin-top:6px;font-size:0.75rem;color:#fecaca;display:none;">
+      <div id="loginError" style="margin-top:8px;font-size:0.8rem;color:#fecaca;display:none;">
         Kode salah, coba lagi.
       </div>
     </div>
@@ -276,7 +227,7 @@
       <div class="brand">
         <div class="logo-dot"></div>
         <div class="brand-text">
-          <span class="brand-title">Web Kasir Pro</span>
+          <span class="brand-title">Web Kasir 2.1</span>
           <span class="brand-sub">Single Page • LocalStorage</span>
         </div>
       </div>
@@ -364,7 +315,7 @@
             <div class="summary-item">
               <div class="summary-label">Estimasi Laba</div>
               <div class="summary-value" id="totalProfitText">Rp 0</div>
-              <div class="summary-sub">Belum termasuk diskon global</div>
+              <div class="summary-sub">Diskon item sudah dihitung</div>
             </div>
           </div>
 
@@ -435,7 +386,7 @@
               <input type="month" id="reportMonth" />
             </div>
             <div class="field-group" style="align-self:flex-end;">
-              <button class="btn btn-block" onclick="downloadReport()">Download Laporan</button>
+              <button class="btn btn-block" onclick="downloadReport()">Download Laporan (CSV)</button>
             </div>
           </div>
 
@@ -443,12 +394,12 @@
             <div class="summary-item">
               <div class="summary-label">Total Penjualan</div>
               <div class="summary-value" id="reportSalesText">Rp 0</div>
-              <div class="summary-sub">Nilai transaksi bulan ini</div>
+              <div class="summary-sub">Total transaksi bulan ini</div>
             </div>
             <div class="summary-item">
               <div class="summary-label">Total Keuntungan</div>
               <div class="summary-value" id="reportProfitText">Rp 0</div>
-              <div class="summary-sub">Perkiraan berdasarkan harga pokok</div>
+              <div class="summary-sub">Perkiraan dari HPP</div>
             </div>
           </div>
 
@@ -476,16 +427,16 @@
           <div class="field-group"><label>Nama Toko</label><input id="sName" /></div>
           <div class="field-group"><label>Alamat</label><textarea id="sAddress"></textarea></div>
           <div class="field-group"><label>No. HP</label><input id="sPhone" /></div>
-          <div class="field-group"><label>Catatan Struk (opsional)</label><input id="sFooter" placeholder="Terima kasih sudah berbelanja" /></div>
+          <div class="field-group"><label>Catatan Struk (opsional)</label><input id="sFooter" placeholder="Terima kasih telah berbelanja" /></div>
 
           <button class="btn btn-block" onclick="saveSettings()">Simpan Setting</button>
 
-          <div style="margin-top:10px;padding-top:6px;border-top:1px dashed rgba(148,163,184,0.4);">
+          <div style="margin-top:10px;padding-top:6px;border-top:1px dashed rgba(148,163,184,.4);">
             <div class="card-header" style="padding:0;margin-bottom:4px;">
               <span class="card-title">Utilitas Data</span>
             </div>
             <div class="grid-2">
-              <button class="btn btn-block btn-secondary" onclick="exportAllData()">Export Semua Data</button>
+              <button class="btn btn-block btn-secondary" onclick="exportAllData()">Export Semua Data (JSON)</button>
               <button class="btn btn-block btn-danger" onclick="if(confirm('Hapus semua data?')){localStorage.clear();location.reload();}">Reset Aplikasi</button>
             </div>
           </div>
@@ -505,30 +456,14 @@
   </div>
 
   <script>
-    // ========= LOGIN (SHA-256, tidak menaruh "fuadeli" terang) =========
-    // SHA-256("fuadeli") dalam hex:
-    // (sudah ditanam sebagai konstanta hash)
-    // Menggunakan Web Crypto API digest() [web:65]
-    const ACCESS_SHA256_HEX = "5f0c2af2c7d4b6b8f4b7f49b8c4a14b1a5ab19e6b1d6dba6a93b0b3b62f56a5a";
+    // ========= LOGIN TANPA ENKRIPSI =========
+    const ACCESS_CODE = "fuadeli";
 
-    async function sha256Hex(message) {
-      const data = new TextEncoder().encode(message);
-      const hashBuffer = await crypto.subtle.digest("SHA-256", data); // [web:65]
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-    }
-
-    async function checkAccess() {
+    function checkAccess(){
       const val = document.getElementById("accessInput").value.trim();
-      const errorEl = document.getElementById("loginError");
-
-      // penting: crypto.subtle butuh HTTPS/secure context (Vercel aman)
-      const inputHash = await sha256Hex(val);
-      const ok = inputHash === ACCESS_SHA256_HEX;
-
-      errorEl.style.display = ok ? "none" : "block";
-      if (!ok) return;
-
+      const ok = val === ACCESS_CODE;
+      document.getElementById("loginError").style.display = ok ? "none" : "block";
+      if(!ok) return;
       document.getElementById("loginBackdrop").style.display = "none";
       document.getElementById("app").style.display = "block";
     }
@@ -543,12 +478,11 @@
     let sales = [];
     let selectedProductId = null;
 
-    function loadData() {
+    function loadData(){
       products = JSON.parse(localStorage.getItem(KEY_PRODUCTS) || "[]");
       sales = JSON.parse(localStorage.getItem(KEY_SALES) || "[]");
-
       const s = JSON.parse(localStorage.getItem(KEY_SETTINGS) || "null");
-      if (s) {
+      if(s){
         document.getElementById("sName").value = s.name || "";
         document.getElementById("sAddress").value = s.address || "";
         document.getElementById("sPhone").value = s.phone || "";
@@ -562,18 +496,18 @@
       refreshReport();
     }
 
-    function saveProducts() { localStorage.setItem(KEY_PRODUCTS, JSON.stringify(products)); }
-    function saveSales() { localStorage.setItem(KEY_SALES, JSON.stringify(sales)); }
+    function saveProducts(){ localStorage.setItem(KEY_PRODUCTS, JSON.stringify(products)); }
+    function saveSales(){ localStorage.setItem(KEY_SALES, JSON.stringify(sales)); }
 
     // ====== UTIL ======
-    function formatRupiah(n) {
+    function formatRupiah(n){
       n = Number(n || 0);
       return "Rp " + n.toLocaleString("id-ID");
     }
-    function generateId(prefix) {
-      return prefix + "_" + Date.now() + "_" + Math.floor(Math.random() * 9999);
+    function generateId(prefix){
+      return prefix + "_" + Date.now() + "_" + Math.floor(Math.random()*9999);
     }
-    function getSettings() {
+    function getSettings(){
       return {
         name: document.getElementById("sName").value.trim() || "Nama Toko",
         address: document.getElementById("sAddress").value.trim() || "",
@@ -583,20 +517,20 @@
     }
 
     // ====== TABS ======
-    function showTab(tab) {
+    function showTab(tab){
       const tabs = ["kasir","produk","laporan","setting"];
-      tabs.forEach(t => document.getElementById("tab"+capitalize(t)).classList.toggle("active", t === tab));
+      tabs.forEach(t => document.getElementById("tab"+cap(t)).classList.toggle("active", t===tab));
 
-      document.getElementById("tabKasirContent").style.display = (tab === "kasir") ? "block" : "none";
-      document.getElementById("cartSection").style.display = (tab === "kasir") ? "block" : "none";
-      document.getElementById("productSection").style.display = (tab === "produk") ? "block" : "none";
-      document.getElementById("reportSection").style.display = (tab === "laporan") ? "block" : "none";
-      document.getElementById("settingSection").style.display = (tab === "setting") ? "block" : "none";
+      document.getElementById("tabKasirContent").style.display = (tab==="kasir") ? "block":"none";
+      document.getElementById("cartSection").style.display = (tab==="kasir") ? "block":"none";
+      document.getElementById("productSection").style.display = (tab==="produk") ? "block":"none";
+      document.getElementById("reportSection").style.display = (tab==="laporan") ? "block":"none";
+      document.getElementById("settingSection").style.display = (tab==="setting") ? "block":"none";
     }
-    function capitalize(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+    function cap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
 
     // ====== PRODUK UNTUK KASIR ======
-    function renderProductList() {
+    function renderProductList(){
       const body = document.getElementById("productTableBody");
       const q = document.getElementById("searchInput").value.toLowerCase();
       body.innerHTML = "";
@@ -608,14 +542,16 @@
           const tr = document.createElement("tr");
 
           const tdName = document.createElement("td");
-          tdName.innerHTML = "<div>"+(p.name || "-")+"</div><div style='font-size:0.65rem;color:#9ca3af;'>"+(p.sku || "")+"</div>";
+          tdName.innerHTML =
+            "<div>"+(p.name||"-")+"</div>" +
+            "<div style='font-size:0.65rem;color:#9ca3af;'>"+(p.sku||"")+"</div>";
 
           const tdPrice = document.createElement("td");
           tdPrice.textContent = formatRupiah(p.sell || 0);
 
           const tdStock = document.createElement("td");
-          const tagClass = (Number(p.stock||0) <= 5) ? "tag tag-low" : "tag";
-          tdStock.innerHTML = "<span class='"+tagClass+"'>"+(p.stock || 0)+"</span>";
+          const low = Number(p.stock||0) <= 5;
+          tdStock.innerHTML = "<span class='"+(low?"tag tag-low":"tag")+"'>"+(p.stock||0)+"</span>";
 
           const tdAdd = document.createElement("td");
           const btn = document.createElement("button");
@@ -632,27 +568,29 @@
         });
     }
 
-    function addToCart(pid) {
+    function addToCart(pid){
       const qty = Number(document.getElementById("qtyInput").value || 1);
       const discount = Number(document.getElementById("discountInput").value || 0);
       const p = products.find(x => x.id === pid);
-      if (!p) return;
+      if(!p) return;
 
-      if (Number(p.stock||0) < qty) { alert("Stok kurang!"); return; }
+      if(Number(p.stock||0) < qty){
+        alert("Stok kurang!");
+        return;
+      }
 
       let item = cart.find(x => x.productId === pid);
-      if (!item) {
+      if(!item){
         item = { id: generateId("cart"), productId: pid, name: p.name, qty: 0, price: p.sell, buy: p.buy, discount: 0 };
         cart.push(item);
       }
       item.qty += qty;
       item.discount += discount;
-
       renderCart();
     }
 
     // ====== KERANJANG ======
-    function renderCart() {
+    function renderCart(){
       const body = document.getElementById("cartTableBody");
       body.innerHTML = "";
 
@@ -670,7 +608,9 @@
         const tr = document.createElement("tr");
 
         const tdName = document.createElement("td");
-        tdName.innerHTML = "<div>"+c.name+"</div><div style='font-size:0.65rem;color:#9ca3af;'>"+c.qty+" x "+formatRupiah(c.price)+"</div>";
+        tdName.innerHTML =
+          "<div>"+c.name+"</div>" +
+          "<div style='font-size:0.65rem;color:#9ca3af;'>"+c.qty+" x "+formatRupiah(c.price)+"</div>";
 
         const tdQty = document.createElement("td");
         tdQty.innerHTML =
@@ -681,7 +621,9 @@
           "</div>";
 
         const tdSub = document.createElement("td");
-        tdSub.innerHTML = "<div>"+formatRupiah(lineTotal)+"</div><div style='font-size:0.65rem;color:#9ca3af;'>Disc: "+formatRupiah(c.discount)+"</div>";
+        tdSub.innerHTML =
+          "<div>"+formatRupiah(lineTotal)+"</div>" +
+          "<div style='font-size:0.65rem;color:#9ca3af;'>Disc: "+formatRupiah(c.discount)+"</div>";
 
         const tdDel = document.createElement("td");
         const btn = document.createElement("button");
@@ -705,40 +647,42 @@
       updateChange();
     }
 
-    function changeQty(id, delta) {
+    function changeQty(id, delta){
       const item = cart.find(x => x.id === id);
-      if (!item) return;
+      if(!item) return;
       item.qty += delta;
-      if (item.qty <= 0) cart = cart.filter(x => x.id !== id);
+      if(item.qty <= 0) cart = cart.filter(x => x.id !== id);
       renderCart();
     }
+    function removeCartItem(id){ cart = cart.filter(x => x.id !== id); renderCart(); }
 
-    function removeCartItem(id) { cart = cart.filter(x => x.id !== id); renderCart(); }
-
-    function clearCart() {
-      if (!cart.length) return;
-      if (!confirm("Bersihkan semua item di keranjang?")) return;
+    function clearCart(){
+      if(!cart.length) return;
+      if(!confirm("Bersihkan semua item di keranjang?")) return;
       cart = [];
       renderCart();
     }
 
-    function calcTotal() { return cart.reduce((s,c)=> s + (c.qty*c.price - c.discount), 0); }
-    function calcProfit() { return cart.reduce((s,c)=> s + ((c.price-c.buy)*c.qty - c.discount), 0); }
+    function calcTotal(){ return cart.reduce((s,c)=> s + (c.qty*c.price - c.discount), 0); }
+    function calcProfit(){ return cart.reduce((s,c)=> s + ((c.price-c.buy)*c.qty - c.discount), 0); }
 
-    function updateChange() {
+    function updateChange(){
       const bayar = Number(document.getElementById("bayarInput").value || 0);
       const total = calcTotal();
       const kembali = bayar - total;
-      document.getElementById("kembaliInput").value = kembali < 0 ? "Kurang "+formatRupiah(-kembali) : formatRupiah(kembali);
+      document.getElementById("kembaliInput").value =
+        kembali < 0 ? ("Kurang " + formatRupiah(-kembali)) : formatRupiah(kembali);
     }
 
-    function finishTransaction() {
-      if (!cart.length) { alert("Keranjang masih kosong."); return; }
+    function finishTransaction(){
+      if(!cart.length){ alert("Keranjang masih kosong."); return; }
 
       const total = calcTotal();
       const profit = calcProfit();
       const bayar = Number(document.getElementById("bayarInput").value || 0);
-      if (bayar < total) { if (!confirm("Uang bayar kurang dari total. Tetap lanjut simpan?")) return; }
+      if(bayar < total){
+        if(!confirm("Uang bayar kurang dari total. Tetap simpan?")) return;
+      }
 
       const now = new Date();
       const invoice = "INV" + now.getFullYear().toString().slice(-2)
@@ -747,9 +691,10 @@
         + "-" + String(now.getHours()).padStart(2,"0") + String(now.getMinutes()).padStart(2,"0")
         + "-" + Math.floor(Math.random()*999);
 
+      // kurangi stok
       cart.forEach(c => {
         const p = products.find(x => x.id === c.productId);
-        if (p) p.stock = Number(p.stock || 0) - c.qty;
+        if(p) p.stock = Number(p.stock||0) - c.qty;
       });
       saveProducts();
 
@@ -763,12 +708,13 @@
         kembali: bayar - total,
         items: JSON.parse(JSON.stringify(cart))
       };
-
       sales.push(trx);
       saveSales();
+
       renderProductList();
       refreshReport();
 
+      // struk
       const settings = getSettings();
       const receiptText = buildReceipt(trx, settings);
       document.getElementById("receiptPreview").textContent = receiptText;
@@ -782,58 +728,49 @@
     }
 
     // ====== STRUK ======
-    function buildReceipt(trx, s) {
+    function buildReceipt(trx, s){
       const d = new Date(trx.date);
       let lines = [];
       lines.push(centerText((s.name||"").toUpperCase(), 32));
-      if (s.address) lines.push(centerText(s.address, 32));
-      if (s.phone) lines.push(centerText("Tel: " + s.phone, 32));
-      lines.push(repeat("-", 32));
+      if(s.address) lines.push(centerText(s.address, 32));
+      if(s.phone) lines.push(centerText("Tel: " + s.phone, 32));
+      lines.push("-".repeat(32));
       lines.push("Nota : " + trx.invoice);
       lines.push("Tgl  : " + formatDateTime(d));
-      lines.push(repeat("-", 32));
+      lines.push("-".repeat(32));
 
       trx.items.forEach(it => {
         lines.push(it.name);
-        let line1 = padRight(it.qty + " x " + formatRupiah(it.price), 20);
-        let line2 = padLeft(formatRupiah(it.qty*it.price - it.discount), 12);
+        const line1 = padRight(it.qty + " x " + formatRupiah(it.price), 20);
+        const line2 = padLeft(formatRupiah(it.qty*it.price - it.discount), 12);
         lines.push(line1 + line2);
-        if (it.discount > 0) lines.push("  Disc : " + formatRupiah(it.discount));
+        if(it.discount > 0) lines.push("  Disc : " + formatRupiah(it.discount));
       });
 
-      lines.push(repeat("-", 32));
+      lines.push("-".repeat(32));
       lines.push(padRight("Total", 20) + padLeft(formatRupiah(trx.total), 12));
       lines.push(padRight("Bayar", 20) + padLeft(formatRupiah(trx.bayar), 12));
       lines.push(padRight("Kembali", 20) + padLeft(formatRupiah(trx.kembali), 12));
-      lines.push(repeat("-", 32));
+      lines.push("-".repeat(32));
       lines.push("Perkiraan laba: " + formatRupiah(trx.profit));
-      lines.push(repeat("-", 32));
+      lines.push("-".repeat(32));
       lines.push(centerText(s.footer || "Terima kasih.", 32));
       return lines.join("\n");
     }
 
-    function repeat(ch,len){ return ch.repeat(len); }
-    function padRight(text,len){
-      text = String(text);
-      if (text.length>=len) return text.slice(0,len);
-      return text + " ".repeat(len-text.length);
-    }
-    function padLeft(text,len){
-      text = String(text);
-      if (text.length>=len) return text.slice(0,len);
-      return " ".repeat(len-text.length) + text;
-    }
+    function padRight(text,len){ text=String(text); return (text.length>=len) ? text.slice(0,len) : (text + " ".repeat(len-text.length)); }
+    function padLeft(text,len){ text=String(text); return (text.length>=len) ? text.slice(0,len) : (" ".repeat(len-text.length) + text); }
     function centerText(text,len){
-      text = String(text);
-      if (text.length>=len) return text.slice(0,len);
+      text=String(text);
+      if(text.length>=len) return text.slice(0,len);
       const left = Math.floor((len-text.length)/2);
       const right = len-text.length-left;
-      return " ".repeat(left)+text+" ".repeat(right);
+      return " ".repeat(left) + text + " ".repeat(right);
     }
     function formatDateTime(d){
-      const tgl = String(d.getDate()).padStart(2,"0")+"/"+String(d.getMonth()+1).padStart(2,"0")+"/"+d.getFullYear();
-      const jam = String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");
-      return tgl+" "+jam;
+      const tgl = String(d.getDate()).padStart(2,"0") + "/" + String(d.getMonth()+1).padStart(2,"0") + "/" + d.getFullYear();
+      const jam = String(d.getHours()).padStart(2,"0") + ":" + String(d.getMinutes()).padStart(2,"0");
+      return tgl + " " + jam;
     }
 
     function closeReceipt(){ document.getElementById("receiptBackdrop").style.display="none"; }
@@ -841,14 +778,14 @@
     function doPrint(){
       const size = document.getElementById("paperSize").value;
       const style = document.createElement("style");
-      style.setAttribute("id","printStyle");
+      style.id = "printStyle";
+      // Cetak 58/80mm via @page size (umum dipakai untuk struk) [web:36]
       style.innerHTML = (size === "58")
         ? "@page{size:58mm auto;margin:0;} body{margin:0;} #printArea{width:58mm;padding:2mm 1mm;}"
         : "@page{size:80mm auto;margin:0;} body{margin:0;} #printArea{width:80mm;padding:3mm 2mm;}";
       document.head.appendChild(style);
       window.print();
-      const exist = document.getElementById("printStyle");
-      if (exist) exist.remove();
+      document.getElementById("printStyle")?.remove();
     }
 
     // ====== MASTER PRODUK ======
@@ -864,7 +801,7 @@
 
     function saveProduct(){
       const name = document.getElementById("pName").value.trim();
-      if (!name) { alert("Nama produk wajib diisi."); return; }
+      if(!name){ alert("Nama produk wajib diisi."); return; }
 
       const sku = document.getElementById("pSku").value.trim();
       const buy = Number(document.getElementById("pBuy").value || 0);
@@ -872,13 +809,14 @@
       const stock = Number(document.getElementById("pStock").value || 0);
       const note = document.getElementById("pNote").value.trim();
 
-      if (selectedProductId) {
-        const p = products.find(x=>x.id===selectedProductId);
-        if (!p) return;
-        p.name = name; p.sku = sku; p.buy = buy; p.sell = sell; p.stock = stock; p.note = note;
-      } else {
+      if(selectedProductId){
+        const p = products.find(x => x.id === selectedProductId);
+        if(!p) return;
+        p.name=name; p.sku=sku; p.buy=buy; p.sell=sell; p.stock=stock; p.note=note;
+      }else{
         products.push({ id: generateId("prd"), name, sku, buy, sell, stock, note });
       }
+
       saveProducts();
       renderProductAdmin();
       renderProductList();
@@ -889,6 +827,7 @@
       const body = document.getElementById("productAdminBody");
       const q = document.getElementById("productSearchAdmin").value.toLowerCase();
       body.innerHTML = "";
+
       products
         .filter(p => (p.name||"").toLowerCase().includes(q) || (p.sku||"").toLowerCase().includes(q))
         .slice(0,1000)
@@ -897,32 +836,28 @@
 
           const tdSel = document.createElement("td");
           const rb = document.createElement("input");
-          rb.type = "radio";
-          rb.name = "selectedProduct";
+          rb.type="radio"; rb.name="selectedProduct";
           rb.onclick = () => fillProductForm(p.id);
           tdSel.appendChild(rb);
 
           const tdName = document.createElement("td");
-          tdName.innerHTML = "<div>"+p.name+"</div><div style='font-size:0.65rem;color:#9ca3af;'>"+(p.sku||"")+"</div>";
+          tdName.innerHTML="<div>"+p.name+"</div><div style='font-size:0.65rem;color:#9ca3af;'>"+(p.sku||"")+"</div>";
 
           const tdPrice = document.createElement("td");
-          tdPrice.innerHTML = "<div>"+formatRupiah(p.sell||0)+"</div><div style='font-size:0.65rem;color:#9ca3af;'>HB: "+formatRupiah(p.buy||0)+"</div>";
+          tdPrice.innerHTML="<div>"+formatRupiah(p.sell||0)+"</div><div style='font-size:0.65rem;color:#9ca3af;'>HB: "+formatRupiah(p.buy||0)+"</div>";
 
           const tdStock = document.createElement("td");
-          const tagClass = (Number(p.stock||0) <= 5) ? "tag tag-low" : "tag";
-          tdStock.innerHTML = "<span class='"+tagClass+"'>"+(p.stock || 0)+"</span>";
+          const low = Number(p.stock||0) <= 5;
+          tdStock.innerHTML="<span class='"+(low?"tag tag-low":"tag")+"'>"+(p.stock||0)+"</span>";
 
-          tr.appendChild(tdSel);
-          tr.appendChild(tdName);
-          tr.appendChild(tdPrice);
-          tr.appendChild(tdStock);
+          tr.appendChild(tdSel); tr.appendChild(tdName); tr.appendChild(tdPrice); tr.appendChild(tdStock);
           body.appendChild(tr);
         });
     }
 
     function fillProductForm(id){
-      const p = products.find(x=>x.id===id);
-      if (!p) return;
+      const p = products.find(x => x.id === id);
+      if(!p) return;
       selectedProductId = id;
       document.getElementById("pName").value = p.name;
       document.getElementById("pSku").value = p.sku || "";
@@ -933,9 +868,9 @@
     }
 
     function deleteSelectedProduct(){
-      if (!selectedProductId) { alert("Pilih produk dulu."); return; }
-      if (!confirm("Hapus produk ini?")) return;
-      products = products.filter(x=>x.id!==selectedProductId);
+      if(!selectedProductId){ alert("Pilih produk dulu."); return; }
+      if(!confirm("Hapus produk ini?")) return;
+      products = products.filter(x => x.id !== selectedProductId);
       saveProducts();
       selectedProductId = null;
       resetProductForm();
@@ -956,16 +891,15 @@
       const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
-      a.download = "backup_pos_"+new Date().toISOString().slice(0,10)+".json";
+      a.href=url;
+      a.download="backup_web_kasir_2_1_"+new Date().toISOString().slice(0,10)+".json";
       a.click();
       URL.revokeObjectURL(url);
     }
 
     // ====== LAPORAN ======
     function initReportMonth(){
-      const now = new Date();
-      document.getElementById("reportMonth").value = now.toISOString().slice(0,7);
+      document.getElementById("reportMonth").value = new Date().toISOString().slice(0,7);
     }
 
     function refreshReport(){
@@ -986,25 +920,15 @@
           const d = new Date(s.date);
           const tr = document.createElement("tr");
 
-          const tdDate = document.createElement("td");
-          tdDate.textContent = formatDateTime(d);
-
-          const tdInv = document.createElement("td");
-          tdInv.textContent = s.invoice;
-
-          const tdTotal = document.createElement("td");
-          tdTotal.textContent = formatRupiah(s.total);
-
-          const tdProfit = document.createElement("td");
-          tdProfit.textContent = formatRupiah(s.profit);
+          const tdDate = document.createElement("td"); tdDate.textContent = formatDateTime(d);
+          const tdInv = document.createElement("td"); tdInv.textContent = s.invoice;
+          const tdTotal = document.createElement("td"); tdTotal.textContent = formatRupiah(s.total);
+          const tdProfit = document.createElement("td"); tdProfit.textContent = formatRupiah(s.profit);
 
           totalSales += Number(s.total||0);
           totalProfit += Number(s.profit||0);
 
-          tr.appendChild(tdDate);
-          tr.appendChild(tdInv);
-          tr.appendChild(tdTotal);
-          tr.appendChild(tdProfit);
+          tr.appendChild(tdDate); tr.appendChild(tdInv); tr.appendChild(tdTotal); tr.appendChild(tdProfit);
           tbody.appendChild(tr);
         });
 
@@ -1016,7 +940,7 @@
 
     function downloadReport(){
       const monthStr = document.getElementById("reportMonth").value;
-      if (!monthStr) { alert("Pilih bulan terlebih dahulu."); return; }
+      if(!monthStr){ alert("Pilih bulan terlebih dahulu."); return; }
       const [year,month] = monthStr.split("-");
 
       let rows = ["TanggalISO,Invoice,Total,Laba"];
@@ -1030,11 +954,11 @@
         });
 
       const csv = rows.join("\n");
-      const blob = new Blob([csv],{type:"text/csv;charset=utf-8;"});
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8;"});
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url;
-      a.download = "laporan_"+monthStr+".csv";
+      a.href=url;
+      a.download="laporan_"+monthStr+"_web_kasir_2_1.csv";
       a.click();
       URL.revokeObjectURL(url);
     }
@@ -1043,8 +967,8 @@
     function updateDateTime(){
       const el = document.getElementById("datetimeText");
       const now = new Date();
-      const dStr = now.toLocaleDateString("id-ID", { weekday:"short", year:"numeric", month:"short", day:"numeric" });
-      const tStr = now.toLocaleTimeString("id-ID", { hour:"2-digit", minute:"2-digit", second:"2-digit" });
+      const dStr = now.toLocaleDateString("id-ID",{weekday:"short",year:"numeric",month:"short",day:"numeric"});
+      const tStr = now.toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
       el.textContent = dStr + " • " + tStr;
     }
     setInterval(updateDateTime, 1000);
@@ -1054,7 +978,6 @@
     window.addEventListener("load", () => {
       loadData();
       showTab("kasir");
-      // refresh report saat data awal sudah ada
       refreshReport();
     });
   </script>
